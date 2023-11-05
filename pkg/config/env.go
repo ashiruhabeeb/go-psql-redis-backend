@@ -7,7 +7,8 @@ import (
 )
 
 type Config struct {
-	GinPort	string
+	PSQL_DSN	string
+	GinPort		string
 }
 
 func LoadAppConfig() *Config {
