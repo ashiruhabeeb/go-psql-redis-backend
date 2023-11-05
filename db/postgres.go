@@ -14,7 +14,7 @@ func PostgresConnect(dsn string) {
 	}
 	defer db.Close()
 
-	log.Println("[INIT] database connection established")
+	log.Println("[INIT] ✅ postgresql database connection established")
 
 	err = db.Ping()
 	if err != nil {
