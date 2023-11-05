@@ -1,0 +1,13 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  devup:
+    cmds:
+      - go run cmd/main.go
+    silent: true
+  apptidy:
+    cmds:
+      - go mod tidy
+    silent: true
