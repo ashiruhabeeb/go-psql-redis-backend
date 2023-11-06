@@ -28,4 +28,4 @@ CREATE TABLE IF NOT EXISTS "address" (
 );
 
 -- Table data definition commands
-ALTER TABLE "users" ADD FOREIGN KEY ("address_id") REFERENCES "address" ("addres_id");
+ALTER TABLE "users" ADD FOREIGN KEY ("address_id") REFERENCES "address" ("addres_id") ON UPDATE CASCADE ON DELETE CASCADE;

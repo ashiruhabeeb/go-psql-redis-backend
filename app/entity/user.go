@@ -8,7 +8,7 @@ import (
 
 // Described user credentials
 type User struct {
-	UserId		string		`json:"userid" validate:"required"`
+	UserId		string		`json:"userid"`
 	Firstname	string		`json:"firstname" validate:"required,min=2,max=30"`
 	Lastname	string		`json:"lastname" validate:"required,min=3,max=30"`
 	Username	string		`json:"username" validate:"required,min=2"`
