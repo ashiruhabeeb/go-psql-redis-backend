@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  go-backend-srv:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 7273:7273
+    depends_on:
+      - db
+    network_mode: "host"
+
+  db:
+    image: postgres:latest
+    container_name: go-backend-db
+    environment:
+      - "POSTGRES_USER=${PSQL_USER}"
+      - "POSTGRES_DB=${PSQL_DB}"
+      - "POSTGRES_PASSWORD=${PSQL_PASSWORD}"
+    ports: 
+      - 5432:5432
+    restart: always
+    volumes:
+      - go-backend-db:/var/lib/postgresql/data
+      - ./db/migration/0000001_init_schema.up.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+    - redisDB:/data
+
+volumes:
+  go-backend-db:
+  redisDB:

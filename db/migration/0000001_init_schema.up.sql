@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "users" (
     email       VARCHAR(225) NOT NULL UNIQUE,
     password    VARCHAR(225) NOT NULL,
     phone       VARCHAR(20) NOT NULL UNIQUE,
-    address_id  uuid NUT NULL,
+    address_id  uuid NOT NULL,
     craeted_on  TIMESTAMPTZ NOT NULL DEFAULT (now()),
     updated_on  TIMESTAMPTZ,
     PRIMARY KEY(userid)
@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 
 -- Table: user address
 CREATE TABLE IF NOT EXISTS "address" (
-    address_id    uuid    DEFAULT uuid_genearte_v4 (),
+    address_id    uuid    DEFAULT uuid_generate_v4 (),
     housenumber VARCHAR(225) NOT NULL,
     streetname  VARCHAR(225) NOT NULL,
     localarea   VARCHAR(225) NOT NULL,
