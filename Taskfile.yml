@@ -3,11 +3,17 @@
 version: '3'
 
 tasks:
-  devup:
+  run:
     cmds:
       - go run cmd/main.go
     silent: true
+
   apptidy:
     cmds:
       - go mod tidy
+    silent: true
+
+  devup:
+    cmds:
+      - docker compose up
     silent: true
