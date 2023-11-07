@@ -9,11 +9,19 @@ tasks:
     silent: true
 
   apptidy:
+    secription: synchronizes the go.mod file with the actual dependencies used in the codebase
     cmds:
       - go mod tidy
     silent: true
 
   devup:
+    description: builds, (re)creates, starts, and attaches to containers for services defined in the docker-compose.yaml files 
     cmds:
       - docker compose up
+    silent: true
+
+  devdown:
+    description: stops containers and removes containers, networks, volumes, and images created by devup cmd
+    cmds:
+      - docker compose down
     silent: true

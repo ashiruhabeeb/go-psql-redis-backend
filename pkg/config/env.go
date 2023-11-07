@@ -11,6 +11,8 @@ var Cfg *Config
 type Config struct {
 	// Postgres credentials
 	PSQL_DSN	string
+	// Postgres Credentials for test
+	PSQL_DSNN	string
 	// Gin router credentials
 	GinPort		string
 	// Redis credentials
@@ -24,6 +26,7 @@ func LoadAppConfig() *Config {
 	godotenv.Load()
 
 	dsn := os.Getenv("DB_DSN")
+	dsnn := os.Getenv("DB_DSNN")
 	ginPort := os.Getenv("GIN_PORT")
 	redisuri := os.Getenv("REDIS_URL")
 	redispwd := os.Getenv("REDIS_PASSWORD")
@@ -35,6 +38,7 @@ func LoadAppConfig() *Config {
 
 	return &Config{
 		PSQL_DSN:  dsn,
+		PSQL_DSNN: dsnn,
 		GinPort:   ginPort,
 		RedisURI:  redisuri,
 		RedisPass: redispwd,
