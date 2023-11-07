@@ -14,7 +14,7 @@ import (
 func TestMain(m *testing.M) {
 	cfg := config.LoadAppConfig()
 
-	db.PostgresConnect(cfg.PSQL_DSN)
+	db.PostgresConnect(cfg.PSQL_DSNN)
 
 	db.RedisConnect(cfg)
 
@@ -24,5 +24,7 @@ func TestMain(m *testing.M) {
 
 	router.SetupGinRouter(g)
 
-	os.Exit(m.Run())
+	code := m.Run()
+	os.Exit(code)
+
 }
