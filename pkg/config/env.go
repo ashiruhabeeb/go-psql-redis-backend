@@ -18,7 +18,6 @@ type Config struct {
 	RedisURI	string
 	RedisPass	string
 	RedisDB		int
-
 }
 
 func LoadAppConfig() *Config {
