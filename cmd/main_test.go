@@ -4,7 +4,6 @@ import (
 	"log"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/ashiruhabeeb/go-backend/app/router"
 	"github.com/ashiruhabeeb/go-backend/db"
@@ -15,9 +14,7 @@ import (
 func TestMain(m *testing.M) {
 	cfg := config.LoadAppConfig()
 
-	db.PostgresConnect(cfg.PSQL_DSNN)
-
-	time.Sleep(time.Second * 3)
+	db.PostgresConnect(cfg.PSQL_DSN)
 
 	db.RedisConnect(cfg)
 
