@@ -21,7 +21,10 @@ type Config struct {
 }
 
 func LoadAppConfig() *Config {
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
 
 	dsn := os.Getenv("DB_DSN")
 	ginPort := os.Getenv("GIN_PORT")
