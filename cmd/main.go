@@ -22,5 +22,7 @@ func main() {
 
 	router.SetupGinRouter(gn)
 
-	gn.Run(":"+cfg.GinPort)
+	if err := gn.Run(":"+cfg.GinPort); err != nil {
+		log.Fatal("[ERROR] gn.Run failed.")
+	}
 }
