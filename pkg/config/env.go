@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 
@@ -33,7 +34,9 @@ func LoadAppConfig() *Config {
 	redisdb := os.Getenv("REDIS_DB")
 	redis_db, err := strconv.Atoi(redisdb)
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
+	} else {
+		fmt.Println("redisdb is empty, cannot convert")
 	}
 
 	return &Config{

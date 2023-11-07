@@ -1,4 +1,4 @@
-package test_main
+package main_test
 
 import (
 	"log"
@@ -26,5 +26,4 @@ func TestMain(m *testing.M) {
 
 	code := m.Run()
 	os.Exit(code)
-
 }
