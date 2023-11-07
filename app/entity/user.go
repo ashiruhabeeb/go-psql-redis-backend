@@ -16,8 +16,8 @@ type User struct {
 	Password	string		`json:"password" validate:"required,min=7,containsany=?@!*#"`
 	Phone		string		`json:"phone" validate:"required,e164"`
 	Address		Address		`json:"address" validate:"dive"`
-	CreatedOn	time.Time	`json:"craetedon"`
-	UpdatedOn	time.Time	`json:"updatedon"`
+	Createdat	time.Time	`json:"craeted_at"`
+	Updatedat	time.Time	`json:"updated_at"`
 }
 
 // Describe user address credentials

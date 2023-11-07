@@ -18,7 +18,7 @@ func PostgresConnect(dsn string) {
 
 	err = db.Ping()
 	if err != nil {
-		log.Println(err)
+		log.Printf("[ERROR] db.Ping failed: %v" ,err)
 	}
 
 	db.SetMaxOpenConns(100)

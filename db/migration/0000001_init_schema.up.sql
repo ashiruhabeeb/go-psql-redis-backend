@@ -11,21 +11,21 @@ CREATE TABLE IF NOT EXISTS "users" (
     password    VARCHAR(225) NOT NULL,
     phone       VARCHAR(20) NOT NULL UNIQUE,
     address_id  uuid NOT NULL,
-    craeted_on  TIMESTAMPTZ NOT NULL DEFAULT (now()),
-    updated_on  TIMESTAMPTZ,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT (now()),
+    updated_at  TIMESTAMPTZ,
     PRIMARY KEY(userid)
 );
 
 -- Table: user address
 CREATE TABLE IF NOT EXISTS "address" (
-    address_id    uuid    DEFAULT uuid_generate_v4 (),
-    housenumber VARCHAR(225) NOT NULL,
-    streetname  VARCHAR(225) NOT NULL,
-    localarea   VARCHAR(225) NOT NULL,
-    state       VARCHAR(225) NOT NULL,
-    country     VARCHAR(225) NOT NULL,
+    address_id   uuid DEFAULT uuid_generate_v4 (),
+    house_number VARCHAR(225) NOT NULL,
+    street_name  VARCHAR(225) NOT NULL,
+    local_area   VARCHAR(225) NOT NULL,
+    state        VARCHAR(225) NOT NULL,
+    country      VARCHAR(225) NOT NULL,
     PRIMARY KEY(address_id)
 );
 
 -- Table data definition commands
-ALTER TABLE "users" ADD FOREIGN KEY ("address_id") REFERENCES "address" ("addres_id") ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE "users" ADD FOREIGN KEY ("address_id") REFERENCES "address" ("address_id") ON UPDATE CASCADE ON DELETE CASCADE;
