@@ -24,7 +24,7 @@ type Config struct {
 func LoadAppConfig() *Config {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("[ERROR] godotenv.Load failure: %v", err)
+		log.Fatalf("[ERROR] godotenv.Load failure :%v", err)
 	}
 
 	dsn := os.Getenv("DB_DSN")
