@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -21,9 +22,9 @@ type Config struct {
 }
 
 func LoadAppConfig() *Config {
-	err := godotenv.Load(".env")
+	err := godotenv.Load()
 	if err != nil {
-		panic(err)
+		log.Fatalf("[ERROR] godotenv.Load failure: %v", err)
 	}
 
 	dsn := os.Getenv("DB_DSN")
