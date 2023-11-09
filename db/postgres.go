@@ -17,9 +17,9 @@ func PostgresConnect(dsn string) *sql.DB {
 	}
 	defer db.Close()
 
-	// verify the existence of PSQL connection extablished in line 13
-	if err = db.Ping(); err != nil {
-		panic(err)
+	err = db.Ping()
+	if err != nil {
+		log.Printf("[ERROR] db.Ping failure: %s", err)
 	}
 
 	log.Println("[INIT] ✅ postgresql database connection established")

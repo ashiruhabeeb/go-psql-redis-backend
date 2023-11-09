@@ -2,6 +2,7 @@ version: '3'
 
 services:
   go-backend-srv:
+    container_name: gpr-web
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,7 +14,7 @@ services:
       - db
 
   db:
-    image: postgres:latest
+    image: postgres:alpine3.18
     container_name: go-backend-db
     environment:
       - "POSTGRES_USER=${PSQL_USER}"
@@ -28,7 +29,8 @@ services:
 
   redis:
     image: redis:alpine
-    container_name: redis
+    container_name: redisdb
+    restart: always
     ports:
       - "6379:6379"
     volumes:

@@ -15,7 +15,7 @@ func RedisConnect(addr, pwd string, db int) *redis.Client {
 	})
 
 	if _, err := rdb.Ping(context.TODO()).Result(); err != nil {
-		panic(err)
+		log.Fatalf("[ERROR] rdb.Ping failure: %v", err)
 	}
 
 	log.Println("[INIT] ✅ redis client connection established")
