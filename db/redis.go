@@ -4,16 +4,14 @@ import (
 	"context"
 	"log"
 
-	"github.com/ashiruhabeeb/go-backend/pkg/config"
-
 	"github.com/redis/go-redis/v9"
 )
 
-func RedisConnect(env *config.Config) *redis.Client {
+func RedisConnect(addr, pwd string, db int) *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
-		Addr: env.RedisURI,
-		Password: env.RedisPass,
-		DB: env.RedisDB,
+		Addr: addr,
+		Password: pwd,
+		DB: db,
 	})
 
 	if _, err := rdb.Ping(context.TODO()).Result(); err != nil {

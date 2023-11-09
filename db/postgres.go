@@ -9,6 +9,7 @@ import (
 )
 
 func PostgresConnect(dsn string) {
+	// Establish PSQL connection based on parameter provided
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatalf("[ERROR] database connection failed: %v", err)
@@ -16,6 +17,7 @@ func PostgresConnect(dsn string) {
 	}
 	defer db.Close()
 
+	// verify the existence of PSQL connection extablished in line 13
 	if err = db.Ping(); err != nil {
 		panic(err)
 	}
