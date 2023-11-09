@@ -9,5 +9,3 @@ POST {{hostname}}/api/users/signup
 ###
 
 GET {{hostname}}/api/users/:id
-
-

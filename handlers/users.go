@@ -27,7 +27,6 @@ func(u *UsersHandler) GetUserById(c *gin.Context){
 	id, err := uuid.NewUUID()
 	if err != nil {
 		panic(err)
-		return
 	}
 	c.JSON(200, gin.H{"status": id})
 }
