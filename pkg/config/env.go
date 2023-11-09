@@ -14,6 +14,9 @@ type Config struct {
 	PSQL_DSN	string
 	// Gin router credentials
 	GinPort		string
+	GinReadTimeout  int
+	GinWriteTimeout int
+	GinIdleTimeout	int
 	// Redis credentials
 	RedisURI	string
 	RedisPass	string
@@ -24,7 +27,24 @@ func LoadAppConfig() *Config {
 	godotenv.Load()
 	
 	dsn := os.Getenv("DB_DSN")
+
 	ginPort := os.Getenv("GIN_PORT")
+	ginReadTO := os.Getenv("GIN_READTIMEOUT")
+	gRTO, err := strconv.Atoi(ginReadTO)
+	if err != nil {
+		fmt.Println(err)
+	}
+	ginWriteTO := os.Getenv("GIN_WRITETIMEOUT")
+	gWTO, err := strconv.Atoi(ginWriteTO)
+	if err != nil {
+		fmt.Println(err)
+	}
+	ginIdleTO := os.Getenv("GIN_IDLETIMEOUT")
+	gITO, err := strconv.Atoi(ginIdleTO)
+	if err != nil {
+		fmt.Println(err)
+	}
+	
 	redisuri := os.Getenv("REDIS_URL")
 	redispwd := os.Getenv("REDIS_PASSWORD")
 	redisdb := os.Getenv("REDIS_DB")
@@ -34,10 +54,13 @@ func LoadAppConfig() *Config {
 	}
 
 	return &Config{
-		PSQL_DSN:  dsn,
-		GinPort:   ginPort,
-		RedisURI:  redisuri,
-		RedisPass: redispwd,
-		RedisDB:   redis_db,
+		PSQL_DSN:        dsn,
+		GinPort:         ginPort,
+		GinReadTimeout:  gRTO,
+		GinWriteTimeout: gWTO,
+		GinIdleTimeout:  gITO,
+		RedisURI:        redisuri,
+		RedisPass:       redispwd,
+		RedisDB:         redis_db,
 	}
 }
