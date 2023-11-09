@@ -9,11 +9,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ashiruhabeeb/go-backend/pkg/config"
 	"github.com/gin-gonic/gin"
 )
 
-func SetupGinRouter(cfg *config.Config) {
+func SetupGinRouter(port string, r, w, i int) {
 	gn := gin.Default()
 	gn.Use(gin.Logger())
 
@@ -22,15 +21,15 @@ func SetupGinRouter(cfg *config.Config) {
 	})
 
 	srv := &http.Server{
-		Addr:         ":" + cfg.GinPort,
+		Addr:         ":" + port,
 		Handler:      gn,
-		ReadTimeout:  time.Duration(time.Duration(cfg.GinReadTimeout).Seconds()),
-		WriteTimeout: time.Duration(time.Duration(cfg.GinWriteTimeout).Seconds()),
-		IdleTimeout:  time.Duration(time.Duration(cfg.GinIdleTimeout).Seconds()),
+		ReadTimeout:  time.Duration(time.Duration(r).Seconds()),
+		WriteTimeout: time.Duration(time.Duration(w).Seconds()),
+		IdleTimeout:  time.Duration(time.Duration(i).Seconds()),
 	}
 
 	go func(){
-		log.Printf("[INIT] ✅ gin router running and listening on port %v", cfg.GinPort)
+		log.Printf("[INIT] ✅ gin router running and listening on port %v", port)
 
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("[ERROR] http.ListenAndServe failure: %v\n", err)
