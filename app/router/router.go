@@ -2,6 +2,7 @@ package router
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"net/http"
 	"os"
@@ -9,16 +10,25 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/ashiruhabeeb/go-backend/handlers"
+	"github.com/ashiruhabeeb/go-backend/storage"
 	"github.com/gin-gonic/gin"
 )
 
-func SetupGinRouter(port string, r, w, i int) {
+func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 	gn := gin.Default()
 	gn.Use(gin.Logger())
 
 	gn.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
 	})
+
+	storageRepo := storage.NewUserStorage(db)
+	usersHandlers := handlers.NewUsersHandlers(storageRepo)
+
+	users := gn.Group("/api/users")
+	users.POST("/signup", usersHandlers.UserSignUP)
+	users.GET("/user/:id", usersHandlers.GetUserById)
 
 	srv := &http.Server{
 		Addr:         ":" + port,

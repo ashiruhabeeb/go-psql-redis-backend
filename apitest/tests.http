@@ -1,3 +1,13 @@
 @hostname = http://localhost:7273
 
-get {{hostname}}/health
+GET {{hostname}}/health
+
+###
+
+POST {{hostname}}/api/users/signup
+
+###
+
+GET {{hostname}}/api/users/:id
+
+
