@@ -32,4 +32,4 @@ COPY --from=Builder /app/main .
 # https://docs.docker.com/engine/reference/builder/#expose
 EXPOSE 7273
 
-CMD ["/app/main"]
+CMD [ "/app/main" ]

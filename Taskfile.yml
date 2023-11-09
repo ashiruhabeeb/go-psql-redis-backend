@@ -17,11 +17,11 @@ tasks:
   devup:
     description: builds, (re)creates, starts, and attaches to containers for services defined in the docker-compose.yaml files 
     cmds:
-      - docker compose up
+      - docker compose --env-file .env up --build -d
     silent: true
 
   devdown:
     description: stops containers and removes containers, networks, volumes, and images created by devup cmd
     cmds:
-      - docker compose down
+      - docker compose --env-file .env  down --volumes --remove-orphans --rmi=all
     silent: true
