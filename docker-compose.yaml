@@ -8,10 +8,9 @@ services:
     env_file:
       - .env
     ports:
-      - 7273:7273
+      - "7273:7273"
     depends_on:
       - db
-    network_mode: "host"
 
   db:
     image: postgres:latest
@@ -21,7 +20,7 @@ services:
       - "POSTGRES_DB=${PSQL_DB}"
       - "POSTGRES_PASSWORD=${PSQL_PASSWORD}"
     ports: 
-      - 5432:5432
+      - "5432:5432"
     restart: always
     volumes:
       - go-backend-db:/var/lib/postgresql/data

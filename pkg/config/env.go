@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 
@@ -22,11 +21,8 @@ type Config struct {
 }
 
 func LoadAppConfig() *Config {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("[ERROR] godotenv.Load failure :%v", err)
-	}
-
+	godotenv.Load()
+	
 	dsn := os.Getenv("DB_DSN")
 	ginPort := os.Getenv("GIN_PORT")
 	redisuri := os.Getenv("REDIS_URL")
