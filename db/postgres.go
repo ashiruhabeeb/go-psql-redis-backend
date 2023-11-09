@@ -17,6 +17,11 @@ func PostgresConnect(dsn string) *sql.DB {
 	}
 	defer db.Close()
 
+	err = db.Ping()
+	if err != nil {
+		log.Printf("[ERROR] db.Ping failure: %s", err)
+	}
+
 	log.Println("[INIT] ✅ postgresql database connection established")
 
 	db.SetMaxOpenConns(100)
