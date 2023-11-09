@@ -21,7 +21,9 @@ func NewUserStorage(db *sql.DB) *UserStorage {
 
 // InsertUser creates a new user record in the users table
 func (u *UserStorage) InsertUser(e entity.User)(string, error){
-	err := u.db.QueryRow(db.PsqlInsertUser, e.Firstname, e.Lastname, e.Username, e.Email, e.Password, e.Phone, e.Address.HouseNumber, e.Address.StreetName, e.Address.LocalArea, e.Address.State, e.Address.Country).Scan(&e.UserId)
+	err := u.db.QueryRow(db.PsqlInsertUser, e.Firstname, e.Lastname, 
+		e.Username, e.Email, e.Password, e.Phone, e.Address.HouseNumber, 
+		e.Address.StreetName, e.Address.LocalArea, e.Address.State, e.Address.Country).Scan(&e.UserId)
 	if err != nil {
 		return "", err
 	}

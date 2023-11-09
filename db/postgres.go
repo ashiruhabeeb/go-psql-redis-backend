@@ -8,7 +8,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func PostgresConnect(dsn string) {
+func PostgresConnect(dsn string) *sql.DB {
 	// Establish PSQL connection based on parameter provided
 	db, err := sql.Open("postgres", dsn)
 	if err != nil {
@@ -26,4 +26,6 @@ func PostgresConnect(dsn string) {
 
 	db.SetMaxOpenConns(100)
 	db.SetMaxIdleConns(5)
+
+	return db
 }

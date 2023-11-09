@@ -10,11 +10,12 @@ func main() {
 	// Load app environment variables
 	cfg := config.LoadAppConfig()
 	// Initialize PSQL db connection 
-	db.PostgresConnect(cfg.PSQL_DSN)
+	psql := db.PostgresConnect(cfg.PSQL_DSN)
 	// Initialize Redis db connection
 	db.RedisConnect(cfg.RedisURI, cfg.RedisPass, cfg.RedisDB)
-	// Imitialize app roouter
+	// Initialize app roouter
 	router.SetupGinRouter(
+		psql,
 		cfg.GinPort,
 		cfg.GinReadTimeout,
 		cfg.GinWriteTimeout,
