@@ -35,17 +35,20 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		response.Error(c, 400, err.Error())
+		c.Abort()
 		return
 	}
 
 	if payload.ConfirmPassword != payload.Password {
 		response.Error(c, 400, "Password mismatch. Try again!")
+		c.Abort()
 		return
 	}
 
 	hash, err := password.HashPassword(payload.ConfirmPassword)
 	if err != nil {
 		response.Error(c, 500, err.Error())
+		c.Abort()
 		return
 	}
 
@@ -57,13 +60,6 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 			Email:     payload.Email,
 			Password:  hash,
 			Phone:     payload.Phone,
-			Address:   entity.Address{
-				HouseNumber: payload.Address.HouseNumber,
-				StreetName:  payload.Address.StreetName,
-				LocalArea:   payload.Address.LocalArea,
-				State:       payload.Address.State,
-				Country:     payload.Address.Country,
-			},
 			Createdat: now,
 			Updatedat: now,
 		}
@@ -71,6 +67,7 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 	id, err := uh.Storage.InsertUser(user)
 	if err != nil {
 		response.Error(c, 500, err.Error())
+		c.Abort()
 		return
 	}
 

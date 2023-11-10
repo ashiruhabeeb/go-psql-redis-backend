@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS "users" (
     email       VARCHAR(225) NOT NULL UNIQUE,
     password    VARCHAR(225) NOT NULL,
     phone       VARCHAR(20) NOT NULL UNIQUE,
-    address_id  uuid NOT NULL,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT (now()),
     updated_at  TIMESTAMPTZ,
     PRIMARY KEY(userid)
@@ -19,6 +18,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 -- Table: user address
 CREATE TABLE IF NOT EXISTS "address" (
     address_id   uuid DEFAULT uuid_generate_v4 (),
+    owner_id     uuid         NOT NULL,
     house_number VARCHAR(225) NOT NULL,
     street_name  VARCHAR(225) NOT NULL,
     local_area   VARCHAR(225) NOT NULL,
@@ -28,4 +28,4 @@ CREATE TABLE IF NOT EXISTS "address" (
 );
 
 -- Table data definition commands
-ALTER TABLE "users" ADD FOREIGN KEY ("address_id") REFERENCES "address" ("address_id") ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE "address" ADD FOREIGN KEY ("owner_id") REFERENCES "users" ("userid") ON UPDATE CASCADE ON DELETE CASCADE;
