@@ -23,11 +23,10 @@ func NewUserStorage(db *sql.DB) *UserRepo {
 // InsertUser creates a new user record in the users table
 func (u *UserRepo) InsertUser(e entity.User) (uuid.UUID, error) {
 	err := u.db.QueryRow(db.PsqlInsertUser, e.Firstname, e.Lastname, e.Username, e.Email, 
-		e.Password, e.Phone, e.Address.HouseNumber, e.Address.StreetName, e.Address.LocalArea, 
-		e.Address.State, e.Address.Country).Scan(e.UserId)
+		e.Password, e.Phone).Scan(&e.UserId)
 
 	if err != nil {
-		return uuid.Nil, err
+		return uuid.Nil, fmt.Errorf(err.Error())
 	}
 	return e.UserId, nil
 }

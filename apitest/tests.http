@@ -8,19 +8,11 @@ Content-Type: application/json
 {
     "firstname": "Habeeb",
     "lastname": "Ashiru",
-    "username": "b",
+    "username": "bebo1",
     "email": "gmail.com@ashiruhabeeb",
     "password": "fit?Kam567",
     "confirmpassword": "fit?Kam567",
-    "phone": "+2347061056780",
-    "address": {
-        "house_number": 509,
-        "street_number": "Palmer Adebowale",
-        "lga": "Orelope",
-        "state": "Lagos",
-        "Country": "Nigeria"
-    }
-
+    "phone": "+2347061056780"
 }
 
 ###
