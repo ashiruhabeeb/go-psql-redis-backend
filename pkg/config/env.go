@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 
@@ -53,6 +54,8 @@ func LoadAppConfig() *Config {
 		fmt.Println(err)
 	}
 
+	log.Println("[INIT] ✅ configuration loaded")
+	
 	return &Config{
 		PSQL_DSN:        dsn,
 		GinPort:         ginPort,

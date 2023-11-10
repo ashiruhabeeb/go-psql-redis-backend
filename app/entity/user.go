@@ -8,7 +8,7 @@ import (
 
 // Described user credentials
 type User struct {
-	UserId		string		`json:"userid"`
+	UserId		uuid.UUID	`json:"userid"`
 	Firstname	string		`json:"firstname" validate:"required,min=2,max=30"`
 	Lastname	string		`json:"lastname" validate:"required,min=3,max=30"`
 	Username	string		`json:"username" validate:"required,min=2"`
@@ -23,7 +23,7 @@ type User struct {
 // Describe user address credentials
 type Address struct {
 	HouseNumber	int		`json:"house_number" validate:"required"`
-	StreetName	string	`json:"street_number" validate:"required"`
+	StreetName	string	`json:"street_name" validate:"required"`
 	LocalArea	string	`json:"lga" validate:"required"`
 	State		string	`json:"state" validate:"required"`
 	Country		string	`json:"country" validate:"required"`
@@ -31,7 +31,7 @@ type Address struct {
 
 // Beforesave method func auto-generates uuid string for user record before user record creation
 func (u *User) Beforesave() error {
-	u.UserId = uuid.NewString()
+	u.UserId = uuid.New()
 
 	return nil
 }

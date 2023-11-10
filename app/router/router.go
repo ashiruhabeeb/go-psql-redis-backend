@@ -12,12 +12,25 @@ import (
 
 	"github.com/ashiruhabeeb/go-backend/handlers"
 	"github.com/ashiruhabeeb/go-backend/storage"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 	gn := gin.Default()
 	gn.Use(gin.Logger())
+
+	gn.Use(cors.New(cors.Config{
+        AllowOrigins:     []string{"*"},
+        AllowMethods:     []string{"GET", "POST", "OPTIONS"},
+        AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "accept", "origin", "Cache-Control", "X-Requested-With"},
+        ExposeHeaders:    []string{"Content-Length"},
+        AllowCredentials: true,
+        AllowOriginFunc: func(origin string) bool {
+            return true
+        },
+        MaxAge: 15 * time.Second,
+	}))
 
 	gn.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
@@ -27,12 +40,13 @@ func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 	usersHandlers := handlers.NewUsersHandlers(storageRepo)
 
 	users := gn.Group("/api/users")
-	users.POST("/signup", usersHandlers.UserSignUP)
+	users.POST("/signup", usersHandlers.UserSignUp)
 	users.GET("/user/:id", usersHandlers.GetUserById)
 
 	srv := &http.Server{
 		Addr:         ":" + port,
 		Handler:      gn,
+		MaxHeaderBytes: 1 << 20, //1 MB
 		ReadTimeout:  time.Duration(time.Duration(r).Seconds()),
 		WriteTimeout: time.Duration(time.Duration(w).Seconds()),
 		IdleTimeout:  time.Duration(time.Duration(i).Seconds()),
@@ -45,22 +59,24 @@ func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 			log.Fatalf("[ERROR] http.ListenAndServe failure: %v\n", err)
 		}
 	}()
-
-	// Wait for interrupt signal to gracefully shutdown the server with
-	// a timeout of 5 seconds.
-	quit := make(chan os.Signal, 1)
-	// kill (no param) default send syscanll.SIGTERM
-	// kill -2 is syscall.SIGINT
-	// kill -9 is syscall. SIGKILL but can"t be catch, so don't need add it
-	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	<-quit
-	log.Println("Shutdown Server ...")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
-	defer cancel()
-	if err := srv.Shutdown(ctx); err != nil {
-		log.Fatal("[ERROR] Server Shutdown failure:", err)
-	}
 	
-	log.Println("Server exiting")
+	// declare a buffered channel that reveives unix signal
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+
+	// make blocking channel and waiting for a signal
+	<-quit
+	log.Println("[CLOSE] shutdown server ...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Printf("[CLOSE] error when shutdown server: %s", err)
+	}
+
+	// catching ctx.Done(). timeout of 5 seconds.
+	<-ctx.Done()
+	log.Println("[CLOSE] timeout of 5 seconds.")
+	log.Println("[CLOSE] server exiting")
 }
