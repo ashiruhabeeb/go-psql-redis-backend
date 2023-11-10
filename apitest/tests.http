@@ -17,4 +17,17 @@ Content-Type: application/json
 
 ###
 
-GET {{hostname}}/api/users/:id
+GET {{hostname}}/api/users/allrecords
+Content-Type: application/json
+
+###
+GET {{hostname}}/api/users/fetch/username?username=bebo1
+Content-Type: application/json
+
+###
+GET {{hostname}}/api/users/fetch/email?email=gmail.com@ashiruhabeeb
+Content-Type: application/json
+
+###
+GET {{hostname}}/api/users/"e7be6f8d-8ba4-4e99-8959-f994434bd410"
+Content-Type: application/json

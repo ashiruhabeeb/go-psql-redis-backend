@@ -2,10 +2,11 @@ package db
 
 var (
 	// Postgres queries
-	PsqlInsertUser = `INSERT INTO users(firstname, lastname, username, email, password, phone) VALUES ($1, $2, $3, $4, $5, $6) RETURNING userid`
-	PsqlFetchUserById = `SELECT firstname, lastname, username, email,  FROM users WHERE userid = $1`
-	PsqlFetchBtEmail = `SELECT * FROM users WHERE email = $1`
-	PsqlFetchUsers = `SELECT * FROM users`
+	PsqlInsertUser = `INSERT INTO users(userid, firstname, lastname, username, email, password, phone) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING userid`
+	PsqlFetchUserById = `SELECT firstname, lastname, username, email, phone, created_at, updated_at FROM users WHERE userid = $1`
+	PsqlFetchUserByEmail = `SELECT userid, firstname, lastname, username, email, phone, created_at, updated_at FROM users WHERE email = $1`
+	PsqlFetchUserByUsername = `SELECT userid, firstname, lastname, username, email, phone, created_at, updated_at FROM users WHERE username = $1`
+	PsqlFetchUsers = `SELECT userid, firstname, lastname, username, email, phone, created_at, updated_at FROM users`
 
 	// Redis queries
 )
