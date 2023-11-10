@@ -1,10 +1,27 @@
-@hostname = http://localhost:7273
-
 GET {{hostname}}/health
 
 ###
 
 POST {{hostname}}/api/users/signup
+Content-Type: application/json
+
+{
+    "firstname": "Habeeb",
+    "lastname": "Ashiru",
+    "username": "b",
+    "email": "gmail.com@ashiruhabeeb",
+    "password": "fit?Kam567",
+    "confirmpassword": "fit?Kam567",
+    "phone": "+2347061056780",
+    "address": {
+        "house_number": 509,
+        "street_number": "Palmer Adebowale",
+        "lga": "Orelope",
+        "state": "Lagos",
+        "Country": "Nigeria"
+    }
+
+}
 
 ###
 
