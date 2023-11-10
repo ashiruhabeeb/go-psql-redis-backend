@@ -22,7 +22,7 @@ func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 
 	gn.Use(cors.New(cors.Config{
         AllowOrigins:     []string{"*"},
-        AllowMethods:     []string{"GET", "POST", "OPTIONS"},
+        AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
         AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "accept", "origin", "Cache-Control", "X-Requested-With"},
         ExposeHeaders:    []string{"Content-Length"},
         AllowCredentials: true,
@@ -41,7 +41,10 @@ func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 
 	users := gn.Group("/api/users")
 	users.POST("/signup", usersHandlers.UserSignUp)
-	users.GET("/user/:id", usersHandlers.GetUserById)
+	users.GET("/:id", usersHandlers.GetUserById)
+	users.GET("/fetch/email", usersHandlers.GetUserByEmail)
+	users.GET("/fetch/username", usersHandlers.GetUserByUsername)
+	users.GET("/allrecords", usersHandlers.FetchAllUsersRecords)
 
 	srv := &http.Server{
 		Addr:         ":" + port,

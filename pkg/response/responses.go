@@ -1,11 +1,8 @@
 package response
 
-import (
-	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
-)
+import "github.com/gin-gonic/gin"
 
-func SignupSuccess(c *gin.Context, code int, userid uuid.UUID) {
+func SignupSuccess(c *gin.Context, code int, userid string) {
 	c.JSON(code, gin.H{
 		"status":  "success",
 		"userid":  userid,

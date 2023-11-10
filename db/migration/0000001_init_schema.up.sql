@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- Table: user
 CREATE TABLE IF NOT EXISTS "users" (
-    userid      uuid    DEFAULT uuid_generate_v4 (),
+    userid      VARCHAR(225) NOT NULL,
     firstname   VARCHAR(225) NOT NULL,
     lastname    VARCHAR(225) NOT NULL,
     username    VARCHAR(225) NOT NULL UNIQUE,
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "users" (
 
 -- Table: user address
 CREATE TABLE IF NOT EXISTS "address" (
-    address_id   uuid DEFAULT uuid_generate_v4 (),
-    owner_id     uuid         NOT NULL,
+    address_id   VARCHAR(225) NOT NULL,
+    owner_id     VARCHAR(225) NOT NULL,
     house_number VARCHAR(225) NOT NULL,
     street_name  VARCHAR(225) NOT NULL,
     local_area   VARCHAR(225) NOT NULL,
@@ -29,3 +29,6 @@ CREATE TABLE IF NOT EXISTS "address" (
 
 -- Table data definition commands
 ALTER TABLE "address" ADD FOREIGN KEY ("owner_id") REFERENCES "users" ("userid") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+uuid    DEFAULT uuid_generate_v4 ()

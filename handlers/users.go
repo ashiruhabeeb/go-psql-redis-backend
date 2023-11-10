@@ -8,6 +8,7 @@ import (
 	"github.com/ashiruhabeeb/go-backend/pkg/response"
 	"github.com/ashiruhabeeb/go-backend/storage"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // UsersHandler struct holds users storage repository interface
@@ -30,7 +31,6 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 		Password	string			`json:"password" validate:"required,min=7,containsany=?@!*#"`
 		ConfirmPassword	string		`json:"confirmpassword" validate:"required"`
 		Phone		string			`json:"phone" validate:"required,e164"`
-		Address		entity.Address	`json:"address" validate:"dive"`
 	}
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
@@ -52,8 +52,12 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 		return
 	}
 
+	// generate a uuid string
+	uuidstring := uuid.NewString()
+
 	now := time.Now()
 	user := entity.User{
+			UserId:	   uuidstring,
 			Firstname: payload.Firstname,
 			Lastname:  payload.Lastname,
 			Username:  payload.Username,
@@ -61,8 +65,7 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 			Password:  hash,
 			Phone:     payload.Phone,
 			Createdat: now,
-			Updatedat: now,
-		}
+	}
 
 	id, err := uh.Storage.InsertUser(user)
 	if err != nil {
@@ -74,6 +77,56 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 	response.SignupSuccess(c, 201, id)
 }
 
+// GetUserById fetch a user's record based on the id parameter provided
 func(u *UsersHandler) GetUserById(c *gin.Context){
+	id := c.Param("id")
 
+	user, err := u.Storage.FetchUserById(id)
+	if err != nil {
+		response.Error(c, 500, err.Error())
+		c.Abort()
+		return
+	}
+
+	response.Success(c, 200, "user record retrieved", user)
+}
+
+// GetUserById fetch a user's record based on the id parameter provided
+func(u *UsersHandler) GetUserByEmail(c *gin.Context){
+	email := c.Query("email")
+
+	user, err := u.Storage.FetchUserByEmail(email)
+	if err != nil {
+		response.Error(c, 500, err.Error())
+		c.Abort()
+		return
+	}
+
+	response.Success(c, 200, "user record retrieved", user)
+}
+
+// GetUserById fetch a user's record based on the id parameter provided
+func(u *UsersHandler) GetUserByUsername(c *gin.Context){
+	username := c.Query("username")
+
+	user, err := u.Storage.FetchUserByEmail(username)
+	if err != nil {
+		response.Error(c, 500, err.Error())
+		c.Abort()
+		return
+	}
+
+	response.Success(c, 200, "user record retrieved", user)
+}
+
+// FetchAllUsersRecords  retrieves all users records in the users table
+func(u *UsersHandler) FetchAllUsersRecords(c *gin.Context){
+	users, err := u.Storage.FetchAllUsers()
+	if err != nil {
+		response.Error(c, 500, err.Error())
+		c.Abort()
+		return
+	}
+
+	response.Success(c, 200, "Fetched all records", users)
 }
