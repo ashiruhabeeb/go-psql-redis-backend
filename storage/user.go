@@ -103,6 +103,15 @@ func(u *UserRepo) FetchAllUsers()([]entity.User, error){
 	return users, nil
 }
 
+// UpdateUserRecord updates a single record from the users the table based on the parameters provided
+func(u *UserRepo) UpdateUserRecord(userid uuid.UUID, f, l, un, p string) error {
+	_, err := u.db.Exec(db.PsqlUpdateUser, userid, f, l, un, p)
+	if err !=nil {
+		return err
+	}
+	return nil
+}
+
 // 	DeleteUser deletes a single user record from the users table based on userid parameter provided
 func(u *UserRepo) DeleteUser(userid uuid.UUID) error {
 	_, err := u.db.Exec(db.PsqlDeleteUser, userid)
@@ -119,6 +128,7 @@ type UserRepository interface{
 	FetchUserById(userid uuid.UUID) (*entity.User, error)
 	FetchUserByEmail(email string) (*entity.User, error)
 	FetchUserByUsername(username string) (*entity.User, error)
+	UpdateUserRecord(userid uuid.UUID, e entity.User) error
 	FetchAllUsers()([]entity.User, error)
 	DeleteUser(userid uuid.UUID) error
 }

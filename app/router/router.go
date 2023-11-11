@@ -45,6 +45,7 @@ func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 	users.GET("/fetch/:email", usersHandlers.GetUserByEmail)
 	users.GET("/get/:username", usersHandlers.GetUserByUsername)
 	users.GET("/allrecords", usersHandlers.FetchAllUsersRecords)
+	users.PATCH("/udt/:userid", usersHandlers.UpdateUser)
 	users.DELETE("/del/:userid", usersHandlers.DeleteUser)
 
 	srv := &http.Server{

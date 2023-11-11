@@ -16,7 +16,7 @@ type User struct {
 	Email		string		
 	Password	string		
 	Phone		string		
-	Createdat	time.Time	
+	Createdat	time.Time
 	Updatedat	*sql.NullTime
 }
 
