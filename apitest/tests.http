@@ -2,17 +2,17 @@ GET {{hostname}}/health
 
 ###
 
-POST {{hostname}}/api/users/signup
+POST {{hostname}}/api/v1/signup
 Content-Type: application/json
 
 {
-    "firstname": "Habeeb",
-    "lastname": "Ashiru",
-    "username": "bebo1",
-    "email": "gmail.com@ashiruhabeeb",
-    "password": "fit?Kam567",
-    "confirmpassword": "fit?Kam567",
-    "phone": "+2347061056780"
+    "firstname": "Guam",
+    "lastname": "China",
+    "username": "Asia",
+    "email": "r64@yahoo.com",
+    "password": "fitK@am567",
+    "confirmpassword": "fitK@am567",
+    "phone": "+3247061056780"
 }
 
 ###
@@ -29,5 +29,10 @@ GET {{hostname}}/api/v1/fetch/gmail.com@ashiruhabeeb
 Content-Type: application/json
 
 ###
-GET {{hostname}}/api/v1/user/62feabae-ee47-4127-bb90-42888a4b2c54
+GET {{hostname}}/api/v1/user/
+Content-Type: application/json
+
+###
+
+DELETE {{hostname}}/api/v1/del/2b794dff-3a68-4848-a3e0-8d73688e5057
 Content-Type: application/json
