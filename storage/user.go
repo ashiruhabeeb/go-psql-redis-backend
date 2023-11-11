@@ -6,6 +6,7 @@ import (
 
 	"github.com/ashiruhabeeb/go-backend/app/entity"
 	"github.com/ashiruhabeeb/go-backend/db"
+	"github.com/google/uuid"
 )
 
 // UserStorage holds db object of type database/sql package
@@ -19,19 +20,19 @@ func NewUserStorage(db *sql.DB) *UserRepo {
 }
 
 // InsertUser creates a new user record in the users table
-func (u *UserRepo) InsertUser(e entity.User) (string, error) {
+func (u *UserRepo) InsertUser(e entity.User) (uuid.UUID, error) {
 	err := u.db.QueryRow(db.PsqlInsertUser, e.UserId, e.Firstname, e.Lastname, e.Username, e.Email, 
 		e.Password, e.Phone).Scan(&e.UserId)
 
 	if err != nil {
-		return "", fmt.Errorf(err.Error())
+		return uuid.Nil, fmt.Errorf(err.Error())
 	}
 	return e.UserId, nil
 }
 	
 
 // FetchUserById retrieves a specific user record from the users table
-func (u *UserRepo) FetchUserById(userid string) (*entity.User, error){
+func (u *UserRepo) FetchUserById(userid uuid.UUID) (*entity.User, error){
 	e := entity.User{}
 
 	row := u.db.QueryRow(db.PsqlFetchUserById, userid)
@@ -102,11 +103,22 @@ func(u *UserRepo) FetchAllUsers()([]entity.User, error){
 	return users, nil
 }
 
+// 	DeleteUser deletes a single user record from the users table based on userid parameter provided
+func(u *UserRepo) DeleteUser(userid uuid.UUID) error {
+	_, err := u.db.Exec(db.PsqlDeleteUser, userid)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Implements UserStorage methods 
 type UserRepository interface{
-	InsertUser(e entity.User) (string, error)
-	FetchUserById(userid string) (*entity.User, error)
+	InsertUser(e entity.User) (uuid.UUID, error)
+	FetchUserById(userid uuid.UUID) (*entity.User, error)
 	FetchUserByEmail(email string) (*entity.User, error)
 	FetchUserByUsername(username string) (*entity.User, error)
 	FetchAllUsers()([]entity.User, error)
+	DeleteUser(userid uuid.UUID) error
 }

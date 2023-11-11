@@ -7,6 +7,7 @@ import (
 	"github.com/ashiruhabeeb/go-backend/pkg/password"
 	"github.com/ashiruhabeeb/go-backend/pkg/response"
 	"github.com/ashiruhabeeb/go-backend/storage"
+	"github.com/ashiruhabeeb/go-backend/pkg/validator"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -39,6 +40,12 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 		return
 	}
 
+	if err := validator.Validate(payload); err != nil {
+		response.Error(c, 400, err.Error())
+		c.Abort()
+		return
+	}
+	
 	if payload.ConfirmPassword != payload.Password {
 		response.Error(c, 400, "Password mismatch. Try again!")
 		c.Abort()
@@ -53,7 +60,7 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 	}
 
 	// generate a uuid string
-	uuidstring := uuid.NewString()
+	uuidstring := uuid.New()
 
 	now := time.Now()
 	user := entity.User{
@@ -74,14 +81,17 @@ func(uh *UsersHandler) UserSignUp(c *gin.Context){
 		return
 	}
 
-	response.SignupSuccess(c, 201, id)
+	response.Success(c, 201, "user record inserted", id)
 }
 
 // GetUserById fetch a user's record based on the id parameter provided
 func(u *UsersHandler) GetUserById(c *gin.Context){
-	id := c.Param("id")
+	userid := c.Param("userid")
 
-	user, err := u.Storage.FetchUserById(id)
+	uuid, err := uuid.Parse(userid)
+	HandleError(err)
+
+	user, err := u.Storage.FetchUserById(uuid)
 	if err != nil {
 		response.Error(c, 500, err.Error())
 		c.Abort()
@@ -119,7 +129,7 @@ func(u *UsersHandler) GetUserByUsername(c *gin.Context){
 	response.Success(c, 200, "user record retrieved", user)
 }
 
-// FetchAllUsersRecords  retrieves all users records in the users table
+// FetchAllUsersRecords retrieves all users records in the users table
 func(u *UsersHandler) FetchAllUsersRecords(c *gin.Context){
 	users, err := u.Storage.FetchAllUsers()
 	if err != nil {
@@ -129,4 +139,23 @@ func(u *UsersHandler) FetchAllUsersRecords(c *gin.Context){
 	}
 
 	response.Success(c, 200, "Fetched all records", users)
+}
+
+// DeleteUser deletes user's record from users table based 
+func(u *UsersHandler) DeleteUser(c *gin.Context){
+	userid := c.Param("userid")
+
+	uuid, err := uuid.Parse(userid)
+	HandleError(err)
+
+	e := entity.User{UserId: uuid}
+
+	err = u.Storage.DeleteUser(e.UserId)
+	if err != nil {
+		response.Error(c, 500, err.Error())
+		c.Abort()
+		return
+	}
+
+	response.Success(c, 200, "User successfully deleted", nil)
 }
