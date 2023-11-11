@@ -17,15 +17,24 @@ Content-Type: application/json
 
 ###
 
+PATCH {{hostname}}/api/v1/udt/c68f3016-1f08-4ad1-bbf5-1a9d613349c3
+Content-Type: application/json
+
+{
+    "firstname": "Messi"
+}
+
+###
+
 GET {{hostname}}/api/v1/allrecords
 Content-Type: application/json
 
 ###
-GET {{hostname}}/api/v1/get/bebo1
+GET {{hostname}}/api/v1/get/Asia
 Content-Type: application/json
 
 ###
-GET {{hostname}}/api/v1/fetch/gmail.com@ashiruhabeeb
+GET {{hostname}}/api/v1/fetch/r64@yahoo.com
 Content-Type: application/json
 
 ###

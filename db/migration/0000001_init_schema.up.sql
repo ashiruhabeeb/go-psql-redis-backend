@@ -29,3 +29,20 @@ CREATE TABLE IF NOT EXISTS "address" (
 
 -- Table data definition commands
 ALTER TABLE "address" ADD FOREIGN KEY ("owner_id") REFERENCES "users" ("userid") ON UPDATE CASCADE ON DELETE CASCADE;
+
+-- Users table updated_at field automatic update function creatiom
+CREATE  FUNCTION update_updated_at_users()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = now();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Users table updated_at field automatic update trigger creation
+CREATE TRIGGER update_users_updated_at
+    BEFORE UPDATE
+    ON
+        users
+    FOR EACH ROW
+EXECUTE PROCEDURE update_updated_at_users();

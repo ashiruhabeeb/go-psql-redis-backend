@@ -141,6 +141,46 @@ func(u *UsersHandler) FetchAllUsersRecords(c *gin.Context){
 	response.Success(c, 200, "Fetched all records", users)
 }
 
+// UpdateUser updates user's record fron the user's table
+func(u *UsersHandler) UpdateUser(c *gin.Context){
+	var payload struct {
+		Firstname		string	`json:"firstname" validate:"min=2,max=30"`
+		Lastname		string	`json:"lastname" validate:"min=3,max=30"`
+		Username		string	`json:"username" validate:"min=2"`
+		Phone			string	`json:"phone" validate:"required,e164"`
+	}
+	
+	userid := c.Param("userid")
+
+	uuid , err := uuid.Parse(userid)
+	if err != nil {
+		response.Error(c, 500, err.Error())
+		c.Abort()
+		return
+	}
+
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		response.Error(c, 400, err.Error())
+		c.Abort()
+		return
+	}
+
+	// user := entity.User{
+	// 		Firstname: payload.Firstname,
+	// 		Lastname:  payload.Lastname,
+	// 		Username:  payload.Username,
+	// 		Phone:     payload.Phone,
+	// }
+
+	if err = u.Storage.UpdateUserRecord(uuid, payload.Firstname, payload.Lastname, payload.Username, payload.Phone); err != nil {
+		response.Error(c, 500, err.Error())
+		c.Abort()
+		return
+	}
+
+	response.Success(c, 200, "user record updated successfully", nil)
+}
+
 // DeleteUser deletes user's record from users table based 
 func(u *UsersHandler) DeleteUser(c *gin.Context){
 	userid := c.Param("userid")
