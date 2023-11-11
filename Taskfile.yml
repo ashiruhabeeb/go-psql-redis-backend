@@ -23,5 +23,5 @@ tasks:
   devdown:
     description: stops containers and removes containers, networks, volumes, and images created by devup cmd
     cmds:
-      - docker compose --env-file .env  down --volumes --remove-orphans --rmi=all
+      - docker compose --env-file .env down --volumes --remove-orphans --rmi=all
     silent: true

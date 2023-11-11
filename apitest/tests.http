@@ -17,17 +17,17 @@ Content-Type: application/json
 
 ###
 
-GET {{hostname}}/api/users/allrecords
+GET {{hostname}}/api/v1/allrecords
 Content-Type: application/json
 
 ###
-GET {{hostname}}/api/users/fetch/username?username=bebo1
+GET {{hostname}}/api/v1/get/bebo1
 Content-Type: application/json
 
 ###
-GET {{hostname}}/api/users/fetch/email?email=gmail.com@ashiruhabeeb
+GET {{hostname}}/api/v1/fetch/gmail.com@ashiruhabeeb
 Content-Type: application/json
 
 ###
-GET {{hostname}}/api/users/"e7be6f8d-8ba4-4e99-8959-f994434bd410"
+GET {{hostname}}/api/v1/user/62feabae-ee47-4127-bb90-42888a4b2c54
 Content-Type: application/json

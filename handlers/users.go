@@ -24,13 +24,13 @@ func NewUsersHandlers(s *storage.UserRepo) *UsersHandler {
 // Creates a new user based on payload provided by the client side
 func(uh *UsersHandler) UserSignUp(c *gin.Context){
 	var payload struct {
-		Firstname	string			`json:"firstname" validate:"required,min=2,max=30"`
-		Lastname	string			`json:"lastname" validate:"required,min=3,max=30"`
-		Username	string			`json:"username" validate:"required,min=2"`
-		Email		string			`json:"email" validate:"required,email"`
-		Password	string			`json:"password" validate:"required,min=7,containsany=?@!*#"`
-		ConfirmPassword	string		`json:"confirmpassword" validate:"required"`
-		Phone		string			`json:"phone" validate:"required,e164"`
+		Firstname		string	`json:"firstname" validate:"required,min=2,max=30"`
+		Lastname		string	`json:"lastname" validate:"required,min=3,max=30"`
+		Username		string	`json:"username" validate:"required,min=2"`
+		Email			string	`json:"email" validate:"required,email"`
+		Password		string	`json:"password" validate:"required,min=7,containsany=?@!*#"`
+		ConfirmPassword	string	`json:"confirmpassword" validate:"required"`
+		Phone			string	`json:"phone" validate:"required,e164"`
 	}
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
@@ -93,7 +93,7 @@ func(u *UsersHandler) GetUserById(c *gin.Context){
 
 // GetUserById fetch a user's record based on the id parameter provided
 func(u *UsersHandler) GetUserByEmail(c *gin.Context){
-	email := c.Query("email")
+	email := c.Param("email")
 
 	user, err := u.Storage.FetchUserByEmail(email)
 	if err != nil {
@@ -107,9 +107,9 @@ func(u *UsersHandler) GetUserByEmail(c *gin.Context){
 
 // GetUserById fetch a user's record based on the id parameter provided
 func(u *UsersHandler) GetUserByUsername(c *gin.Context){
-	username := c.Query("username")
+	username := c.Param("username")
 
-	user, err := u.Storage.FetchUserByEmail(username)
+	user, err := u.Storage.FetchUserByUsername(username)
 	if err != nil {
 		response.Error(c, 500, err.Error())
 		c.Abort()

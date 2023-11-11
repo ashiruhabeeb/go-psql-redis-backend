@@ -34,9 +34,9 @@ func (u *UserRepo) InsertUser(e entity.User) (string, error) {
 func (u *UserRepo) FetchUserById(userid string) (*entity.User, error){
 	e := entity.User{}
 
-	row := u.db.QueryRow(db.PsqlFetchUserByEmail, userid)
+	row := u.db.QueryRow(db.PsqlFetchUserById, userid)
 
-	err := row.Scan(&e.Firstname, &e.Lastname, &e.Username, &e.Email, &e.Phone, &e.Createdat, &e.Updatedat)
+	err := row.Scan(&e.UserId, &e.Firstname, &e.Lastname, &e.Username, &e.Email, &e.Phone, &e.Createdat, &e.Updatedat)
 	if err != nil {
 		if err == row.Err() {
 			return nil, err
@@ -68,7 +68,7 @@ func (u *UserRepo) FetchUserByEmail(email string) (*entity.User, error){
 func (u *UserRepo) FetchUserByUsername(username string) (*entity.User, error){
 	e := entity.User{}
 
-	row := u.db.QueryRow(db.PsqlFetchUserByEmail, username)
+	row := u.db.QueryRow(db.PsqlFetchUserByUsername, username)
 
 	err := row.Scan(&e.UserId, &e.Firstname, &e.Lastname, &e.Username, &e.Email, &e.Phone, &e.Createdat, &e.Updatedat)
 	if err != nil {

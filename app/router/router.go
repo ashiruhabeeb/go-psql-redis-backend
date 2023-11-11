@@ -39,11 +39,11 @@ func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 	storageRepo := storage.NewUserStorage(db)
 	usersHandlers := handlers.NewUsersHandlers(storageRepo)
 
-	users := gn.Group("/api/users")
+	users := gn.Group("/api/v1")
 	users.POST("/signup", usersHandlers.UserSignUp)
-	users.GET("/:id", usersHandlers.GetUserById)
-	users.GET("/fetch/email", usersHandlers.GetUserByEmail)
-	users.GET("/fetch/username", usersHandlers.GetUserByUsername)
+	users.GET("/user/:id", usersHandlers.GetUserById)
+	users.GET("/fetch/:email", usersHandlers.GetUserByEmail)
+	users.GET("/get/:username", usersHandlers.GetUserByUsername)
 	users.GET("/allrecords", usersHandlers.FetchAllUsersRecords)
 
 	srv := &http.Server{
