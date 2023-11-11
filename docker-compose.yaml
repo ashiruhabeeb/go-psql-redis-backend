@@ -12,7 +12,6 @@ services:
       - "7273:7273"
     depends_on:
       - db
-
   db:
     image: postgres:alpine3.18
     container_name: go-backend-db
@@ -26,7 +25,6 @@ services:
     volumes:
       - go-backend-db:/var/lib/postgresql/data
       - ./db/migration/0000001_init_schema.up.sql:/docker-entrypoint-initdb.d/create_tables.sql
-
   redis:
     image: redis:alpine
     container_name: redisdb
