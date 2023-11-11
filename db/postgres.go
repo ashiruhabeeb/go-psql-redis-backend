@@ -17,14 +17,16 @@ func PostgresConnect(dsn string) *sql.DB {
 		os.Exit(1)
 	}
 
-	err = db.Ping()
-	if err != nil {
-		log.Printf("[ERROR] db.Ping failure: %s", err)
+	// Verify established database connection status
+	if err = db.Ping(); err != nil {
+		panic(err)
+	} else {
+		log.Println("[INIT] ✅ postgresql database pinged")
 	}
 
 	log.Println("[INIT] ✅ postgresql database connection established")
 
-	// 
+	// Database connection management settings
 	db.SetMaxOpenConns(25)
 	db.SetMaxIdleConns(25)
 	db.SetConnMaxLifetime(5*time.Minute)

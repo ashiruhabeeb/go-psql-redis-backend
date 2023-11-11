@@ -6,13 +6,13 @@ POST {{hostname}}/api/v1/signup
 Content-Type: application/json
 
 {
-    "firstname": "Guam",
-    "lastname": "China",
-    "username": "Asia",
-    "email": "r64@yahoo.com",
-    "password": "fitK@am567",
-    "confirmpassword": "fitK@am567",
-    "phone": "+3247061056780"
+    "firstname": "Selim",
+    "lastname": "Bella",
+    "username": "sBella",
+    "email": "selim@yahoo.com",
+    "password": "fitK@am!567",
+    "confirmpassword": "fitK@am!567",
+    "phone": "+3247060956780"
 }
 
 ###
@@ -38,7 +38,7 @@ GET {{hostname}}/api/v1/fetch/r64@yahoo.com
 Content-Type: application/json
 
 ###
-GET {{hostname}}/api/v1/user/
+GET {{hostname}}/api/v1/user/b8b5127f-f7f2-4555-a001-ad0d078b0ed2
 Content-Type: application/json
 
 ###
