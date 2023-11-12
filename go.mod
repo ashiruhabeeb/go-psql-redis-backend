@@ -10,6 +10,8 @@ require (
 	github.com/redis/go-redis/v9 v9.3.0
 )
 
+require github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
+
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
