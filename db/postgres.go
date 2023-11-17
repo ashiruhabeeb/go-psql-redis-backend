@@ -9,6 +9,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
+var (
+	Db *sql.DB
+)
+
 func PostgresConnect(dsn string) *sql.DB {
 	// Establish PSQL connection based on parameter provided
 	db, err := sql.Open("postgres", dsn)

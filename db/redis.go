@@ -7,6 +7,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+var (
+	RedisClient	*redis.Client
+)
+
 func RedisConnect(addr, pwd string, db int) *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
 		Addr: addr,

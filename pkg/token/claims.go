@@ -1,8 +1,8 @@
 package token
 
 type TokenClaims struct {
-	Token		*string
+	Token		string
 	TokenUUID	string
 	UserID		string
-	ExpiresIn	*int64
+	ExpiresIn	int64
 }
