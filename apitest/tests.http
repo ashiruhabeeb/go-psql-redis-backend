@@ -43,5 +43,5 @@ Content-Type: application/json
 
 ###
 
-DELETE {{hostname}}/api/v1/del/2b794dff-3a68-4848-a3e0-8d73688e5057
+DELETE {{hostname}}/api/v1/del/42459ff9-f021-4fbf-9bfc-cd9686b77ef8
 Content-Type: application/json

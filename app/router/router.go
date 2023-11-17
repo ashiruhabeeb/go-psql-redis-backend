@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/ashiruhabeeb/go-backend/handlers"
+	"github.com/ashiruhabeeb/go-backend/pkg/config"
 	"github.com/ashiruhabeeb/go-backend/storage"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -37,10 +38,14 @@ func SetupGinRouter(db *sql.DB, port string, r, w, i int) {
 	})
 
 	storageRepo := storage.NewUserStorage(db)
-	usersHandlers := handlers.NewUsersHandlers(storageRepo)
+	usersHandlers := handlers.NewUsersHandlers(storageRepo, config.Cfg)
+
+	auth := gn.Group("/api/v1")
+	auth.POST("/signup", usersHandlers.UserSignUp)
+	auth.GET("/signin", usersHandlers.SignIn)
 
 	users := gn.Group("/api/v1")
-	users.POST("/signup", usersHandlers.UserSignUp)
+	users.Use()
 	users.GET("/user/:userid", usersHandlers.GetUserById)
 	users.GET("/fetch/:email", usersHandlers.GetUserByEmail)
 	users.GET("/get/:username", usersHandlers.GetUserByUsername)

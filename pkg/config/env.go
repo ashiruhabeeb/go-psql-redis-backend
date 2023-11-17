@@ -22,6 +22,15 @@ type Config struct {
 	RedisURI	string
 	RedisPass	string
 	RedisDB		int
+	// JWT Token credentials
+	AccessTokenPrivateKey	string
+	AccessTokenPublicKey	string
+	AccessTokenExpiresIn	int
+	AccessTokenMaxAge		int
+	RefreshTokenPrivateKey	string
+	RefreshTokenPublicKey	string
+	RefreshTokenExpiresIn	int
+	RefreshTokenMaxAge		int
 }
 
 func LoadAppConfig() *Config {
@@ -54,6 +63,27 @@ func LoadAppConfig() *Config {
 		fmt.Println(err)
 	}
 
+	accTknPvtKey := os.Getenv("ACCESS_TKN_PRV_KEY")
+	accTknPubKey :=os.Getenv("ACCESS_TKN_Pub_KEY")
+	accTknExpiresIn := os.Getenv("ACCESS_TKN_EXP_IN")
+	accTknExpIn, err := strconv.Atoi(accTknExpiresIn)
+	if err != nil {
+		fmt.Println(err)	}
+	accTknMaxage := os.Getenv("ACESS_TKN_MAXAGE")
+	accTknMaxAge, err := strconv.Atoi(accTknMaxage)
+	if err != nil {
+		fmt.Println(err)	}
+	refTknPvtKey := os.Getenv("REFRESH_TKN_PRV_KEY")
+	refTknPubKey :=os.Getenv("REFRESH_TKN_PUB_KEY")
+	refTknExpiresIn := os.Getenv("REFRESH_TKN_EXP_IN")
+	refTknExpIn, err := strconv.Atoi(refTknExpiresIn)
+	if err != nil {
+		fmt.Println(err)	}
+	refTknMaxage := os.Getenv("REFRESH_TKN_MAXAGE")
+	refTknMaxAge, err := strconv.Atoi(refTknMaxage)
+	if err != nil {
+		fmt.Println(err)	}
+
 	log.Println("[INIT] ✅ configuration loaded")
 	
 	return &Config{
@@ -65,5 +95,13 @@ func LoadAppConfig() *Config {
 		RedisURI:        redisuri,
 		RedisPass:       redispwd,
 		RedisDB:         redis_db,
+		AccessTokenPrivateKey: accTknPvtKey,
+		AccessTokenPublicKey: accTknPubKey,
+		AccessTokenExpiresIn: accTknExpIn,
+		AccessTokenMaxAge: accTknMaxAge,
+		RefreshTokenPrivateKey: refTknPvtKey,
+		RefreshTokenPublicKey: refTknPubKey,
+		RefreshTokenExpiresIn: refTknExpIn,
+		RefreshTokenMaxAge: refTknMaxAge,
 	}
 }
